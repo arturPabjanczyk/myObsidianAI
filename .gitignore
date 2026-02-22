@@ -1,0 +1,25 @@
+# Środowisko wirtualne (Tu są zainstalowane biblioteki - ważą setki MB)
+.venv/
+venv/
+env/
+
+# Sekrety i klucze API (NAJWAŻNIEJSZE - tu jest Twój klucz OpenAI)
+.env
+
+# Pliki tymczasowe Pythona (Odpowiednik plików .o / .obj z C++)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ustawienia PyCharma (Osobiste preferencje edytora)
+.idea/
+.chainlit/
+chainlit.md
+
+# Baza danych (Jeśli zdecydujesz się nie wysyłać wektorów na GitHub)
+vector_db/
+chroma/
+
+# Systemowe (Mac/Windows)
+.DS_Store
+Thumbs.db
