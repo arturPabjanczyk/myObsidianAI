@@ -14,7 +14,7 @@ CHROMA_DIR = os.path.join(DATA_DIR, "chroma_db")
 
 embeddings = OpenAIEmbeddings()
 vectorstore = Chroma(persist_directory=CHROMA_DIR, embedding_function=embeddings)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+retriever = vectorstore.as_retriever(search_kwargs={"k": 6})
 
 model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 

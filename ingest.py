@@ -19,7 +19,7 @@ loader = DirectoryLoader(
 )
 documents = loader.load()
 
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=100)
 docs = text_splitter.split_documents(documents)
 
 vectorstore = Chroma.from_documents(
