@@ -1,0 +1,8 @@
+chainlit
+python-dotenv
+langchain-core
+langchain-openai
+langchain-chroma
+chromadb
+langchain-community
+langchain-text-splitters
