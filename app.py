@@ -1,25 +1,42 @@
-import chainlit as cl
+import os
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage
-
+import chainlit as cl
+from langchain_chroma import Chroma
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 load_dotenv()
 
-model = ChatOpenAI(model="gpt-4o-mini")
+DATA_DIR = os.getenv("DATA_DIR", ".")
+CHROMA_DIR = os.path.join(DATA_DIR, "chroma_db")
 
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma(persist_directory=CHROMA_DIR, embedding_function=embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+template = """Jesteś asystentem szkolnego archiwum.
+Odpowiedz na pytanie tylko na podstawie poniższego kontekstu:
+{context}
+
+Pytanie: {question}
+"""
+prompt = ChatPromptTemplate.from_template(template)
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+rag_chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | prompt
+    | model
+    | StrOutputParser()
+)
 
 @cl.on_message
 async def main(message: cl.Message):
-    response = model.invoke([HumanMessage(content=message.content)])
-
-    # Wyciągamy statystyki z odpowiedzi
-    usage = response.response_metadata.get('token_usage', {})
-    input_tokens = usage.get('prompt_tokens', 0)
-    output_tokens = usage.get('completion_tokens', 0)
-
-    # Wyświetlamy w terminalu PyCharma
-    print(f"--- KOSZT ZAPYTANIA ---")
-    print(f"Input: {input_tokens} tokenów | Output: {output_tokens} tokenów")
-
-    await cl.Message(content=response.content).send()
+    response = rag_chain.invoke(message.content)
+    await cl.Message(content=response).send()

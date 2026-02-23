@@ -16,9 +16,8 @@ __pycache__/
 .chainlit/
 chainlit.md
 
-# Baza danych (Jeśli zdecydujesz się nie wysyłać wektorów na GitHub)
-vector_db/
-chroma/
+# Baza danych
+chroma_db/
 
 # Systemowe (Mac/Windows)
 .DS_Store
