@@ -5,6 +5,6 @@ services:
       - "20356:8000"
     env_file: .env
     volumes:
-      - ./docs:/app/docs
+      - ./docs:/app/data/docs
       - ./chroma_db:/app/chroma_db
     restart: always
