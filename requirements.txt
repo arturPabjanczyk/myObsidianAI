@@ -1,8 +1,8 @@
-chainlit
-python-dotenv
-langchain-core
-langchain-openai
-langchain-chroma
-chromadb
-langchain-community
-langchain-text-splitters
+chainlit==2.9.6
+chromadb==1.5.1
+langchain-chroma==1.1.0
+langchain-community==0.4.1
+langchain-core==1.2.14
+langchain-openai==1.1.10
+langchain-text-splitters==1.1.1
+python-dotenv==1.2.1
