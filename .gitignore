@@ -18,6 +18,7 @@ chainlit.md
 
 # Baza danych
 chroma_db/
+docs/
 
 # Systemowe (Mac/Windows)
 .DS_Store
